@@ -30,10 +30,15 @@ class Main {
 			System.out.println("\nMAIN MENU\nWhat would you like to do?");
 			System.out.println("\t1) Add a New Pokemon \n\t2) List All Pokemon \n\t3) Exit Program \n");
 			System.out.print("Enter choice number> ");
-			choice = keyboard.nextInt(); //could throw exception here and skip rest of code
+			try {
+			
+			choice = keyboard.nextInt();
+			if(choice >= 3 || choice == 0){
+				throw new IllegalArgumentException("ERROR. Wrong integer added for your choice. Please use integers 1-3");
+			} //could throw exception here and skip rest of code
 			keyboard.nextLine();
 			System.out.println();
-
+			
 			if (choice == 1) {
 				System.out.println("Enter Pokemon Info to be added:");
 				System.out.print("Enter Pokemon Name> ");
@@ -44,20 +49,26 @@ class Main {
 				String type2 = keyboard.nextLine();
 				type2 = (type2.equalsIgnoreCase("none")) ? null : type2;
 
+				try{
 				Pokemon p = new Pokemon(name, type1, type2);
-				myBox.add(p); //could throw exception here and skip rest of code
-
-				System.out.println("\n" + name + " added!");
+				myBox.add(p);
+				System.out.println("\n" + name + " added!"); 
+			} catch (IllegalArgumentException e) {
+					System.out.println("Failed to add Pokemon: " + e.getMessage());
+				}				
 			} else if (choice == 2) {
 				System.out.println(myBox);
 			} else if (choice == 3) {
 				keyboard.close();
 				tryAgain = false;
-			} else {
-				System.out.println("Invalid choice, please pick a valid option from the menu.\n");
-			}
-		} while (tryAgain);
-
-		System.out.println("Thank you for using the Pokemon Box program :D see you later!");
+			} 
+		}  catch (IllegalArgumentException e) {
+			System.out.println("Unable to continue. Please try again. Error Message: " + e.getMessage());
 	}
+
+} while (tryAgain == true);
+		if (tryAgain == false) {
+		System.out.println("Thank you for using the Pokemon Box program :D See you later!");
+	}
+}
 }
