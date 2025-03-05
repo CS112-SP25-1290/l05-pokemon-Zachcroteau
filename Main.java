@@ -45,8 +45,8 @@ class Main {
 			}
 			} 
 			if (choice == 1) {
-				System.out.print("Press Enter to continue> ");
 				keyboard.nextLine();
+				System.out.print("");
 				System.out.println("Enter Pokemon Info to be added:");
 				System.out.print("Enter Pokemon Name> ");
 				String name = keyboard.nextLine();
@@ -84,14 +84,20 @@ class Main {
 				"Enter an Integer between 1-4!");
 			choice = -1;
 		} catch (IllegalArgumentException e) {
-			System.out.println("Invalid Pokemon Data! Get to know your new Pokemon and try again.");
-			choice = 1;
+			System.out.println(
+					"You've entered invalid Pokemon information. Get to know your Pokemon better and try again\n"
+					+ "Press Enter to continue.");
 		} catch (PokemonAlreadyExistsException e) {
-			System.out.println("For ecological reasons, we ask you return that Pokemon to the wild. You already have one in your box! Try again please with another Pokemon.");
-			choice = 1;
+			System.out.println(
+					"For ecological reasons, we ask you return that Pokemon to the wild. You already have one in your box! Try again please with another Pokemon.\n"
+					+ "Press Enter to continue.");
 		} catch (NullPointerException e) {
-			keyboard.nextLine();
-			System.out.println("There's no Pokemon at that box number! Please refrence the option 2 printout for box numbers");
+			System.out.println(
+				"There's no Pokemon at that box number! Please refrence the option 2 printout for box numbers");
+			choice = -1;
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println(
+					"Your Pokemon storage isn't even that large! Please refrence the option 2 printout for box numbers.");
 			choice = -1;
 		}
 
