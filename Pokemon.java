@@ -28,8 +28,7 @@ public class Pokemon {
 
 	public Pokemon(Pokemon p) throws IllegalArgumentException {
 		if(p == null) {
-			System.out.println("ERROR: Pokemon copy constructor illegal argument (null) passed.");
-			System.exit(0);
+			throw new IllegalArgumentException("ERROR. CAN'T COPY FROM A 'NULL' POKEMON");
 		}
 		this.setAll(p.name, p.type1, p.type2);
 	}

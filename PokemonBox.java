@@ -8,15 +8,13 @@ public class PokemonBox {
 	private int numCaught;
 
 	// CONSTRUCTORS
-	public PokemonBox(Pokemon[] caught) {
+	public PokemonBox(Pokemon[] caught) throws IllegalArgumentException {
 		if(caught == null || caught.length == 0) {
-			System.out.println("ERROR: Invalid Pokemon array provided to PokemonBox. Exiting program.");
-			System.exit(0);
+			throw new IllegalArgumentException("ERROR. NULL CAUGHT POKEMON ARRAY");
 		}
 		this.numCaught = caught.length;
 		this.caught = this.deepCopyArray(caught, this.numCaught*2);
-	}
-
+	} 
 	public PokemonBox() {
 		this.caught = new Pokemon[DEFAULT_CAPACITY];
 		this.numCaught = 0;
@@ -39,8 +37,13 @@ public class PokemonBox {
 		return location;
 	}
 
-	public Pokemon getPokemon(int location) {
-		return this.caught[location];
+	public Pokemon getPokemon(int location) throws IndexOutOfBoundsException {
+		if ((location - 1) <= caught.length) {
+			return this.caught[location];
+		}
+		else {
+			throw new IndexOutOfBoundsException("Location request is out of index for the caught Pokemon Array");
+		}
 	}
 
 	public int getNumCaught() {
@@ -56,15 +59,22 @@ public class PokemonBox {
 	}
 
 	// MUTATOR/SETTER METHODS
-	public void add(Pokemon newPoke) {
+	public void add(Pokemon newPoke) throws PokemonAlreadyExistsException {
 		//new pokemon,  add to partially filled array
 		//but first check if box is full
 		if(this.numCaught == this.caught.length) {
 			//if full, then grow array *2 and copy contents over
-			this.caught = this.deepCopyArray(this.caught, this.numCaught*2);
+			this.caught = this.deepCopyArray(this.caught, this.numCaught + 1);
 		}
 
 		//then add new caught pokemon
+		
+		for (Pokemon p : this.caught) {
+			if (newPoke.equals(p)) {
+				throw new PokemonAlreadyExistsException(
+						"Pokemon is already in your box! This boxs limits you to one of each pokemon.");
+			}
+		}
 		this.caught[this.numCaught] = new Pokemon(newPoke);
 		this.numCaught++;
 	}
